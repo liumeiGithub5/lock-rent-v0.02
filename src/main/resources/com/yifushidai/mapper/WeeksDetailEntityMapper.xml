@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.WeeksDetailEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.WeeksDetailEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="years" jdbcType="VARCHAR" property="years" />
+    <result column="weeks" jdbcType="VARCHAR" property="weeks" />
+    <result column="savetimes" jdbcType="DOUBLE" property="savetimes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mac, years, weeks, savetimes
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_weeksdetail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_weeksdetail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.WeeksDetailEntity">
+    insert into tb_weeksdetail (id, mac, years, 
+      weeks, savetimes)
+    values (#{id,jdbcType=BIGINT}, #{mac,jdbcType=VARCHAR}, #{years,jdbcType=VARCHAR}, 
+      #{weeks,jdbcType=VARCHAR}, #{savetimes,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.WeeksDetailEntity">
+    insert into tb_weeksdetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="years != null">
+        years,
+      </if>
+      <if test="weeks != null">
+        weeks,
+      </if>
+      <if test="savetimes != null">
+        savetimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null">
+        #{years,jdbcType=VARCHAR},
+      </if>
+      <if test="weeks != null">
+        #{weeks,jdbcType=VARCHAR},
+      </if>
+      <if test="savetimes != null">
+        #{savetimes,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.WeeksDetailEntity">
+    update tb_weeksdetail
+    <set>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null">
+        years = #{years,jdbcType=VARCHAR},
+      </if>
+      <if test="weeks != null">
+        weeks = #{weeks,jdbcType=VARCHAR},
+      </if>
+      <if test="savetimes != null">
+        savetimes = #{savetimes,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.WeeksDetailEntity">
+    update tb_weeksdetail
+    set mac = #{mac,jdbcType=VARCHAR},
+      years = #{years,jdbcType=VARCHAR},
+      weeks = #{weeks,jdbcType=VARCHAR},
+      savetimes = #{savetimes,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryByMac" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_weeksdetail
+    <where>
+      <if test="mac!= null">
+        mac = #{mac}
+      </if>
+    </where>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="queryByMacTotal" parameterType="map" resultType="int">
+    select count(*)
+    from tb_weeksdetail
+    <where>
+      <if test="mac != null">
+        mac = #{mac}
+      </if>
+    </where>
+  </select>
+
+
+  <select id="queryCur" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_weeksdetail
+    <where>
+      mac = #{mac}
+      and weeks =#{weeks}
+      and years =#{years}
+    </where>
+  </select>
+
+  <delete id="deleteByMac" parameterType="String">
+    delete from tb_weeksdetail
+    where mac = #{mac,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

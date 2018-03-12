@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.SaveETEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.SaveETEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="saveETime" jdbcType="DOUBLE" property="saveetime" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mac, saveETime, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_savee_time
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_savee_time
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.SaveETEntity">
+    insert into tb_savee_time (id, mac, saveETime, 
+      createTime)
+    values (#{id,jdbcType=BIGINT}, #{mac,jdbcType=VARCHAR}, #{saveetime,jdbcType=DOUBLE}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.SaveETEntity">
+    insert into tb_savee_time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="saveetime != null">
+        saveETime,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="saveetime != null">
+        #{saveetime,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.SaveETEntity">
+    update tb_savee_time
+    <set>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="saveetime != null">
+        saveETime = #{saveetime,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.SaveETEntity">
+    update tb_savee_time
+    set mac = #{mac,jdbcType=VARCHAR},
+      saveETime = #{saveetime,jdbcType=DOUBLE},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="querySomeByMacAndTime" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_savee_time
+    <where>
+      <if test="startTime != null and endTime != null ">
+        createTime between #{startTime} and #{endTime}
+      </if>
+      <if test="macList != null">
+        and  mac in
+        <foreach close=")" collection="macList" item="mac" open="(" separator=",">
+          #{mac}
+        </foreach>
+      </if>
+    </where>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="querySomeByMacAndTimeTotal" parameterType="map" resultType="int">
+    select
+    count(*)
+    from tb_savee_time
+    <where>
+      <if test="start != null and end != null ">
+        createTime between #{startTime} and #{endTime}
+      </if>
+      <if test="macList != null">
+        and  mac in
+        <foreach close=")" collection="macList" item="mac" open="(" separator=",">
+          #{mac}
+        </foreach>
+      </if>
+    </where>
+  </select>
+
+  <select id="queryByToday" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_savee_time
+    where mac = #{mac,jdbcType=VARCHAR}
+    and date(createTime) = curdate();
+  </select>
+
+  <delete id="deleteByMac" parameterType="String">
+    delete from tb_savee_time
+    where mac = #{mac,jdbcType=VARCHAR}
+  </delete>
+
+
+</mapper>

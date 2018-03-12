@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="lock-rent-v0.02:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="rent.war">
+      <element id="artifact" artifact-name="lock-rent-v0.02:war exploded" />
+    </root>
+  </artifact>
+</component>

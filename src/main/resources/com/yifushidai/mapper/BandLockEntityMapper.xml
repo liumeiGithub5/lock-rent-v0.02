@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.BandLockEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.BandLockEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="lock_id" jdbcType="BIGINT" property="lockId" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="addr" jdbcType="VARCHAR" property="addr" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="bluetooth" jdbcType="VARCHAR" property="bluetooth" />
+    <result column="lbs" jdbcType="TINYINT" property="lbs" />
+    <result column="ls" jdbcType="TINYINT" property="ls" />
+    <result column="les" jdbcType="TINYINT" property="les" />
+    <result column="cales" jdbcType="TINYINT" property="cales" />
+    <result column="eprice" jdbcType="DOUBLE" property="eprice" />
+    <result column="pow" jdbcType="DOUBLE" property="pow" />
+    <result column="savetotal" jdbcType="DOUBLE" property="savetotal" />
+    <result column="savetoday" jdbcType="DOUBLE" property="savetoday" />
+    <result column="bandtime" jdbcType="TIMESTAMP" property="bandtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mobile, lock_id, mac, alias, addr, img, bluetooth, lbs, ls, les, cales, eprice, 
+    pow, savetotal, savetoday, bandtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_band_lock
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_band_lock
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.BandLockEntity">
+    insert into tb_band_lock (id, mobile, lock_id,
+      mac, alias, addr, img,
+      bluetooth, lbs, ls,
+      les, cales, eprice,
+      pow, savetotal, savetoday,
+      bandtime)
+    values (#{id,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{lockId,jdbcType=BIGINT},
+      #{mac,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR},
+      #{bluetooth,jdbcType=VARCHAR}, #{lbs,jdbcType=INTEGER}, #{ls,jdbcType=TINYINT},
+      #{les,jdbcType=TINYINT}, #{cales,jdbcType=TINYINT}, #{eprice,jdbcType=DOUBLE},
+      #{pow,jdbcType=DOUBLE}, #{savetotal,jdbcType=DOUBLE}, #{savetoday,jdbcType=DOUBLE},
+      #{bandtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.BandLockEntity">
+    insert into tb_band_lock
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="lockId != null">
+        lock_id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="addr != null">
+        addr,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="bluetooth != null">
+        bluetooth,
+      </if>
+      <if test="lbs != null">
+        lbs,
+      </if>
+      <if test="ls != null">
+        ls,
+      </if>
+      <if test="les != null">
+        les,
+      </if>
+      <if test="cales != null">
+        cales,
+      </if>
+      <if test="eprice != null">
+        eprice,
+      </if>
+      <if test="pow != null">
+        pow,
+      </if>
+      <if test="savetotal != null">
+        savetotal,
+      </if>
+      <if test="savetoday != null">
+        savetoday,
+      </if>
+      <if test="bandtime != null">
+        bandtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="lockId != null">
+        #{lockId,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="bluetooth != null">
+        #{bluetooth,jdbcType=VARCHAR},
+      </if>
+      <if test="lbs != null">
+        #{lbs,jdbcType=INTEGER},
+      </if>
+      <if test="ls != null">
+        #{ls,jdbcType=TINYINT},
+      </if>
+      <if test="les != null">
+        #{les,jdbcType=TINYINT},
+      </if>
+      <if test="cales != null">
+        #{cales,jdbcType=TINYINT},
+      </if>
+      <if test="eprice != null">
+        #{eprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pow != null">
+        #{pow,jdbcType=DOUBLE},
+      </if>
+      <if test="savetotal != null">
+        #{savetotal,jdbcType=DOUBLE},
+      </if>
+      <if test="savetoday != null">
+        #{savetoday,jdbcType=DOUBLE},
+      </if>
+      <if test="bandtime != null">
+        #{bandtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.BandLockEntity">
+    update tb_band_lock
+    <set>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="lockId != null">
+        lock_id = #{lockId,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="bluetooth != null">
+        bluetooth = #{bluetooth,jdbcType=VARCHAR},
+      </if>
+      <if test="lbs != null">
+        lbs = #{lbs,jdbcType=INTEGER},
+      </if>
+      <if test="ls != null">
+        ls = #{ls,jdbcType=TINYINT},
+      </if>
+      <if test="les != null">
+        les = #{les,jdbcType=TINYINT},
+      </if>
+      <if test="cales != null">
+        cales = #{cales,jdbcType=TINYINT},
+      </if>
+      <if test="eprice != null">
+        eprice = #{eprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pow != null">
+        pow = #{pow,jdbcType=DOUBLE},
+      </if>
+      <if test="savetotal != null">
+        savetotal = #{savetotal,jdbcType=DOUBLE},
+      </if>
+      <if test="savetoday != null">
+        savetoday = #{savetoday,jdbcType=DOUBLE},
+      </if>
+      <if test="bandtime != null">
+        bandtime = #{bandtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.BandLockEntity">
+    update tb_band_lock
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      lock_id = #{lockId,jdbcType=BIGINT},
+      mac = #{mac,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      addr = #{addr,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      bluetooth = #{bluetooth,jdbcType=VARCHAR},
+      lbs = #{lbs,jdbcType=INTEGER},
+      ls = #{ls,jdbcType=TINYINT},
+      les = #{les,jdbcType=TINYINT},
+      cales = #{cales,jdbcType=TINYINT},
+      eprice = #{eprice,jdbcType=DOUBLE},
+      pow = #{pow,jdbcType=DOUBLE},
+      savetotal = #{savetotal,jdbcType=DOUBLE},
+      savetoday = #{savetoday,jdbcType=DOUBLE},
+      bandtime = #{bandtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryByMobile" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_band_lock
+    where mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryByMac" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_band_lock
+    where mac = #{mac,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getMainLocks" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_band_lock
+    <where>
+      mobile = #{mobile,jdbcType=VARCHAR}
+    </where>
+  </select>
+
+  <delete id="deleteByLockId" parameterType="java.lang.Long">
+    delete from tb_band_lock
+    where lock_id = #{lockId,jdbcType=BIGINT}
+  </delete>
+
+  <select id="queryByLockId" resultType="String">
+    select mac
+    from tb_band_lock
+    where lock_id = #{lockId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getBlueTeeth" resultType="String">
+    select bluetooth
+    from tb_band_lock
+    where lock_id = #{lockId,jdbcType=VARCHAR}
+  </select>
+</mapper>

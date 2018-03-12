@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.OpenRecordEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.OpenRecordEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="result" jdbcType="INTEGER" property="result" />
+    <result column="typ" jdbcType="VARCHAR" property="typ" />
+    <result column="open_time" jdbcType="TIMESTAMP" property="openTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mac, result, typ, open_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_open
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_open
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.OpenRecordEntity">
+    insert into tb_open (id, mac, result, 
+      typ, open_time)
+    values (#{id,jdbcType=BIGINT}, #{mac,jdbcType=VARCHAR}, #{result,jdbcType=INTEGER}, 
+      #{typ,jdbcType=VARCHAR}, #{openTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.OpenRecordEntity">
+    insert into tb_open
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="typ != null">
+        typ,
+      </if>
+      <if test="openTime != null">
+        open_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=INTEGER},
+      </if>
+      <if test="typ != null">
+        #{typ,jdbcType=VARCHAR},
+      </if>
+      <if test="openTime != null">
+        #{openTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.OpenRecordEntity">
+    update tb_open
+    <set>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=INTEGER},
+      </if>
+      <if test="typ != null">
+        typ = #{typ,jdbcType=VARCHAR},
+      </if>
+      <if test="openTime != null">
+        open_time = #{openTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.OpenRecordEntity">
+    update tb_open
+    set mac = #{mac,jdbcType=VARCHAR},
+      result = #{result,jdbcType=INTEGER},
+      typ = #{typ,jdbcType=VARCHAR},
+      open_time = #{openTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryWarnList" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_open
+    <where>
+      <if test="mac != null ">
+        mac = #{mac}
+      </if>
+      <if test="openTime != null and lastTime != null ">
+        and open_time between #{lastTime} and #{openTime}
+      </if>
+    </where>
+  </select>
+
+
+  <!-- 查询当天开锁记录 -->
+  <select id="queryByCurday" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_open
+    <where>
+      mac = #{mac}
+      and date(open_time) = #{todayStr}
+    </where>
+  </select>
+
+
+  <select id="queryEveDaycount" resultType="int">
+    select count(*)
+    from tb_open
+    <where>
+      <if test="mac != null ">
+        mac = #{mac}
+      </if>
+      <if test="startTime != null and endTime != null ">
+        and open_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    group by date(open_time);
+  </select>
+
+  <delete id="deleteByMac" parameterType="String">
+    delete from tb_open
+    where mac = #{mac,jdbcType=VARCHAR}
+  </delete>
+
+
+</mapper>

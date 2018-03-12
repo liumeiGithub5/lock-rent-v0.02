@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.UploadHistoryEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.UploadHistoryEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="numrange" jdbcType="VARCHAR" property="numrange" />
+    <result column="uptime" jdbcType="TIMESTAMP" property="uptime" />
+    <result column="uptype" jdbcType="TINYINT" property="uptype" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, operator, count, numrange, uptime, uptype
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_upload_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_upload_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.UploadHistoryEntity">
+    insert into tb_upload_history (id, operator, count, 
+      numrange, uptime, uptype
+      )
+    values (#{id,jdbcType=INTEGER}, #{operator,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{numrange,jdbcType=VARCHAR}, #{uptime,jdbcType=TIMESTAMP}, #{uptype,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.UploadHistoryEntity">
+    insert into tb_upload_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="numrange != null">
+        numrange,
+      </if>
+      <if test="uptime != null">
+        uptime,
+      </if>
+      <if test="uptype != null">
+        uptype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="numrange != null">
+        #{numrange,jdbcType=VARCHAR},
+      </if>
+      <if test="uptime != null">
+        #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptype != null">
+        #{uptype,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.UploadHistoryEntity">
+    update tb_upload_history
+    <set>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="numrange != null">
+        numrange = #{numrange,jdbcType=VARCHAR},
+      </if>
+      <if test="uptime != null">
+        uptime = #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptype != null">
+        uptype = #{uptype,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.UploadHistoryEntity">
+    update tb_upload_history
+    set operator = #{operator,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      numrange = #{numrange,jdbcType=VARCHAR},
+      uptime = #{uptime,jdbcType=TIMESTAMP},
+      uptype = #{uptype,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="query"  parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_upload_history
+    where
+    <if test="type != null">
+      type = #{type},
+    </if>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+    order by uptime desc
+  </select>
+
+  <select id="queryTotal"  parameterType="map" resultType="int">
+    select
+    <include refid="Base_Column_List" />
+    from tb_upload_history
+    where
+    <if test="type != null">
+      type = #{type},
+    </if>
+  </select>
+</mapper>

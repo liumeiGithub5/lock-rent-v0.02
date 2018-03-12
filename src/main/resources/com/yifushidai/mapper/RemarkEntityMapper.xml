@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.RemarkEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.RemarkEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="rm_status" jdbcType="TINYINT" property="rmStatus" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mobile, remark, rm_status,createtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_remark
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_remark
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.RemarkEntity">
+    insert into tb_remark (id, mobile, remark, 
+      rm_status,createtime)
+    values (#{id,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{rmStatus,jdbcType=TINYINT},#{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.RemarkEntity">
+    insert into tb_remark
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="rmStatus != null">
+        rm_status,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="rmStatus != null">
+        #{rmStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.RemarkEntity">
+    update tb_remark
+    <set>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="rmStatus != null">
+        rm_status = #{rmStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.RemarkEntity">
+    update tb_remark
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      rm_status = #{rmStatus,jdbcType=TINYINT},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--  /*查询*/-->
+  <select id="queryRemark" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_remark
+    <where>
+    <choose>
+      <when test="mobile != null and mobile.trim() != ''">
+          mobile like concat('%',#{mobile},'%')
+      </when>
+      <otherwise>
+        <![CDATA[
+        rm_status = 0
+        ]]>
+      </otherwise>
+    </choose>
+    </where>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="queryRemarkTotal" parameterType="map" resultType="int">
+    select count(*) from tb_remark
+    <where>
+      <choose>
+        <when test="mobile != null and mobile.trim() != ''">
+          mobile like concat('%',#{mobile},'%')
+        </when>
+        <otherwise>
+          <![CDATA[
+            rm_status = 0
+          ]]>
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+
+  <update id="handleRemark" >
+    update tb_remark set rm_status = 1
+    where id in
+    <foreach item="id" collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </update>
+
+  <select id="queryByMobile"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_remark
+    where mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+</mapper>

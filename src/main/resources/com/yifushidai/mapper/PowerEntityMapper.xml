@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.PowerEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.PowerEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="typ" jdbcType="INTEGER" property="typ" />
+    <result column="power_time" jdbcType="TIMESTAMP" property="powerTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mac, typ, power_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_power
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_power
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.PowerEntity">
+    insert into tb_power (id, mac, typ, 
+      power_time)
+    values (#{id,jdbcType=BIGINT}, #{mac,jdbcType=VARCHAR}, #{typ,jdbcType=INTEGER}, 
+      #{powerTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.PowerEntity">
+    insert into tb_power
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="typ != null">
+        typ,
+      </if>
+      <if test="powerTime != null">
+        power_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="typ != null">
+        #{typ,jdbcType=INTEGER},
+      </if>
+      <if test="powerTime != null">
+        #{powerTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.PowerEntity">
+    update tb_power
+    <set>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="typ != null">
+        typ = #{typ,jdbcType=INTEGER},
+      </if>
+      <if test="powerTime != null">
+        power_time = #{powerTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.PowerEntity">
+    update tb_power
+    set mac = #{mac,jdbcType=VARCHAR},
+      typ = #{typ,jdbcType=INTEGER},
+      power_time = #{powerTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="queryAllByMac" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_power
+    <where>
+      <if test="mac != null ">
+        mac = #{mac}
+      </if>
+    </where>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="queryAllByMacTotal" resultType="int">
+    select count(*)
+    from tb_power
+    <where>
+      <if test="mac != null ">
+        mac = #{mac}
+      </if>
+    </where>
+  </select>
+
+  <select id="queryLatestOffByMac" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from (
+    select
+    <include refid="Base_Column_List" />
+    from tb_power
+    <where>
+      mac = #{mac,jdbcType=VARCHAR}
+      and typ = 1
+    </where>
+    order by power_time desc
+    ) a limit 1
+  </select>
+
+  <select id="queryLatestByMac" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from (
+    select
+    <include refid="Base_Column_List" />
+    from tb_power
+    <where>
+      mac = #{mac,jdbcType=VARCHAR}
+    </where>
+    order by power_time desc
+    ) a limit 2
+  </select>
+
+  <delete id="deleteByMac" parameterType="string">
+    delete from tb_power
+    where mac = #{mac,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

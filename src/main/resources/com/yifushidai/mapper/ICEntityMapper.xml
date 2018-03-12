@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.ICEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.ICEntity">
+    <id column="ic_id" jdbcType="BIGINT" property="icId" />
+    <result column="lock_id" jdbcType="BIGINT" property="lockId" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="inNo" jdbcType="VARCHAR" property="inno" />
+    <result column="outNo" jdbcType="VARCHAR" property="outno" />
+    <result column="ic_name" jdbcType="VARCHAR" property="icName" />
+    <result column="ic_status" jdbcType="TINYINT" property="icStatus" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ic_id, lock_id, mac, inNo, outNo, ic_name, ic_status, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_ic_band
+    where ic_id = #{icId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_ic_band
+    where ic_id = #{icId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.ICEntity">
+    insert into tb_ic_band (ic_id, lock_id, mac, 
+      inNo, outNo, ic_name, 
+      ic_status, updateTime)
+    values (#{icId,jdbcType=BIGINT}, #{lockId,jdbcType=BIGINT}, #{mac,jdbcType=VARCHAR}, 
+      #{inno,jdbcType=VARCHAR}, #{outno,jdbcType=VARCHAR}, #{icName,jdbcType=VARCHAR}, 
+      #{icStatus,jdbcType=TINYINT}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.ICEntity">
+    insert into tb_ic_band
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="icId != null">
+        ic_id,
+      </if>
+      <if test="lockId != null">
+        lock_id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="inno != null">
+        inNo,
+      </if>
+      <if test="outno != null">
+        outNo,
+      </if>
+      <if test="icName != null">
+        ic_name,
+      </if>
+      <if test="icStatus != null">
+        ic_status,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="icId != null">
+        #{icId,jdbcType=BIGINT},
+      </if>
+      <if test="lockId != null">
+        #{lockId,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="inno != null">
+        #{inno,jdbcType=VARCHAR},
+      </if>
+      <if test="outno != null">
+        #{outno,jdbcType=VARCHAR},
+      </if>
+      <if test="icName != null">
+        #{icName,jdbcType=VARCHAR},
+      </if>
+      <if test="icStatus != null">
+        #{icStatus,jdbcType=TINYINT},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.ICEntity">
+    update tb_ic_band
+    <set>
+      <if test="lockId != null">
+        lock_id = #{lockId,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="inno != null">
+        inNo = #{inno,jdbcType=VARCHAR},
+      </if>
+      <if test="outno != null">
+        outNo = #{outno,jdbcType=VARCHAR},
+      </if>
+      <if test="icName != null">
+        ic_name = #{icName,jdbcType=VARCHAR},
+      </if>
+      <if test="icStatus != null">
+        ic_status = #{icStatus,jdbcType=TINYINT},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ic_id = #{icId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.ICEntity">
+    update tb_ic_band
+    set lock_id = #{lockId,jdbcType=BIGINT},
+      mac = #{mac,jdbcType=VARCHAR},
+      inNo = #{inno,jdbcType=VARCHAR},
+      outNo = #{outno,jdbcType=VARCHAR},
+      ic_name = #{icName,jdbcType=VARCHAR},
+      ic_status = #{icStatus,jdbcType=TINYINT},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where ic_id = #{icId,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="queryIc" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_ic_band
+    <where>
+      <if test="mac != null ">
+        mac = #{mac}
+      </if>
+    </where>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="queryIcTotal" parameterType="map" resultType="int">
+    select count(*)
+    from tb_ic_band
+    <where>
+      <if test="mac != null ">
+        mac = #{mac}
+      </if>
+    </where>
+  </select>
+
+  <select id="queryByMacAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_ic_band
+    where mac = #{mac,jdbcType=VARCHAR}
+    and ic_name = #{icName,jdbcType=VARCHAR}
+  </select>
+  <select id="queryNeedUp" parameterType="map" resultMap="BaseResultMap">
+    select
+    a.*
+    from tb_ic_band a
+    <choose>
+      <when test="phone != null and phone.trim() != ''">
+        ,tb_band_lock b
+        <where>
+          a.mac = b.mac
+          and b.mobile= #{phone}
+        </where>
+      </when>
+      <otherwise>
+        <where>
+          <![CDATA[
+           a.ic_status = 1
+          ]]>
+        </where>
+      </otherwise>
+    </choose>
+
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="queryNeedUpTotal" parameterType="map" resultType="int">
+    select
+    count(*)
+    from tb_ic_band a
+    <choose>
+      <when test="phone != null and phone.trim() != ''">
+        ,tb_band_lock b
+        <where>
+          a.mac = b.mac
+          and b.mobile= #{phone}
+        </where>
+      </when>
+      <otherwise>
+        <where>
+          <![CDATA[
+           a.ic_status = 1
+          ]]>
+        </where>
+      </otherwise>
+    </choose>
+  </select>
+
+</mapper>

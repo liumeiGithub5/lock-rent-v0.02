@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/doc/RRException-Code.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/doc/民宿升级版通信协议.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/lock-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lock-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lock-rest" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lock-restApi" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lock-web" charset="UTF-8" />
+  </component>
+</project>

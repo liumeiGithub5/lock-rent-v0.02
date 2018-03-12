@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.YearsDetailEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.YearsDetailEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="years" jdbcType="VARCHAR" property="years" />
+    <result column="savetimes" jdbcType="DOUBLE" property="savetimes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mac, years, savetimes
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_yearsdetail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_yearsdetail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.YearsDetailEntity">
+    insert into tb_yearsdetail (id, mac, years, 
+      savetimes)
+    values (#{id,jdbcType=BIGINT}, #{mac,jdbcType=VARCHAR}, #{years,jdbcType=VARCHAR}, 
+      #{savetimes,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.YearsDetailEntity">
+    insert into tb_yearsdetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="years != null">
+        years,
+      </if>
+      <if test="savetimes != null">
+        savetimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null">
+        #{years,jdbcType=VARCHAR},
+      </if>
+      <if test="savetimes != null">
+        #{savetimes,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.YearsDetailEntity">
+    update tb_yearsdetail
+    <set>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null">
+        years = #{years,jdbcType=VARCHAR},
+      </if>
+      <if test="savetimes != null">
+        savetimes = #{savetimes,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.YearsDetailEntity">
+    update tb_yearsdetail
+    set mac = #{mac,jdbcType=VARCHAR},
+      years = #{years,jdbcType=VARCHAR},
+      savetimes = #{savetimes,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryByMac" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_yearsdetail
+    <where>
+      <if test="mac!= null">
+        mac = #{mac}
+      </if>
+    </where>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="queryByMacTotal" parameterType="map" resultType="int">
+    select count(*)
+    from tb_yearsdetail
+    <where>
+      <if test="mac != null">
+        mac = #{mac}
+      </if>
+    </where>
+  </select>
+  <select id="queryCur" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_yearsdetail
+    <where>
+      mac = #{mac}
+      and years = #{years}
+    </where>
+  </select>
+
+  <delete id="deleteByMac" parameterType="String">
+    delete from tb_yearsdetail
+    where mac = #{mac,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

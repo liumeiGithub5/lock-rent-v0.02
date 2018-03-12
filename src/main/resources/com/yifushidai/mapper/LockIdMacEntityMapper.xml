@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.LockIdMacEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.LockIdMacEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="lock_id" jdbcType="BIGINT" property="lockId" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, lock_id, mac
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_id_mac_band
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_id_mac_band
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.LockIdMacEntity">
+    insert into tb_id_mac_band (id, lock_id, mac
+      )
+    values (#{id,jdbcType=BIGINT}, #{lockId,jdbcType=BIGINT}, #{mac,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.LockIdMacEntity">
+    insert into tb_id_mac_band
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="lockId != null">
+        lock_id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="lockId != null">
+        #{lockId,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.LockIdMacEntity">
+    update tb_id_mac_band
+    <set>
+      <if test="lockId != null">
+        lock_id = #{lockId,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.LockIdMacEntity">
+    update tb_id_mac_band
+    set lock_id = #{lockId,jdbcType=BIGINT},
+      mac = #{mac,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryByLockId" resultType="String">
+    select mac
+    from tb_id_mac_band
+    where lock_id = #{lockId,jdbcType=BIGINT}
+  </select>
+
+  <select id="queryLockIdByMac" resultType="Long">
+    select lock_id
+    from tb_id_mac_band
+    where mac = #{mac,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insertlist">
+    insert into tb_id_mac_band
+    (lock_id,mac)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.lockId},#{item.mac})
+    </foreach>
+  </insert>
+
+</mapper>

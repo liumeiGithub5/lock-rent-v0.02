@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yifushidai.mapper.QuartersDetailEntityMapper">
+  <resultMap id="BaseResultMap" type="com.yifushidai.entity.QuartersDetailEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="years" jdbcType="VARCHAR" property="years" />
+    <result column="months" jdbcType="VARCHAR" property="months" />
+    <result column="quarters" jdbcType="VARCHAR" property="quarters" />
+    <result column="savetimes" jdbcType="DOUBLE" property="savetimes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mac, years, months, quarters, savetimes
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_quartersdetail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_quartersdetail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yifushidai.entity.QuartersDetailEntity">
+    insert into tb_quartersdetail (id, mac, years, 
+      months, quarters, savetimes
+      )
+    values (#{id,jdbcType=BIGINT}, #{mac,jdbcType=VARCHAR}, #{years,jdbcType=VARCHAR}, 
+      #{months,jdbcType=VARCHAR}, #{quarters,jdbcType=VARCHAR}, #{savetimes,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yifushidai.entity.QuartersDetailEntity">
+    insert into tb_quartersdetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="years != null">
+        years,
+      </if>
+      <if test="months != null">
+        months,
+      </if>
+      <if test="quarters != null">
+        quarters,
+      </if>
+      <if test="savetimes != null">
+        savetimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null">
+        #{years,jdbcType=VARCHAR},
+      </if>
+      <if test="months != null">
+        #{months,jdbcType=VARCHAR},
+      </if>
+      <if test="quarters != null">
+        #{quarters,jdbcType=VARCHAR},
+      </if>
+      <if test="savetimes != null">
+        #{savetimes,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yifushidai.entity.QuartersDetailEntity">
+    update tb_quartersdetail
+    <set>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null">
+        years = #{years,jdbcType=VARCHAR},
+      </if>
+      <if test="months != null">
+        months = #{months,jdbcType=VARCHAR},
+      </if>
+      <if test="quarters != null">
+        quarters = #{quarters,jdbcType=VARCHAR},
+      </if>
+      <if test="savetimes != null">
+        savetimes = #{savetimes,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yifushidai.entity.QuartersDetailEntity">
+    update tb_quartersdetail
+    set mac = #{mac,jdbcType=VARCHAR},
+      years = #{years,jdbcType=VARCHAR},
+      months = #{months,jdbcType=VARCHAR},
+      quarters = #{quarters,jdbcType=VARCHAR},
+      savetimes = #{savetimes,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryByMac" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_quartersdetail
+    <where>
+      <if test="mac!= null">
+        mac = #{mac}
+      </if>
+    </where>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="queryByMacTotal" parameterType="map" resultType="int">
+    select count(*)
+    from tb_quartersdetail
+    <where>
+      <if test="mac != null">
+        mac = #{mac}
+      </if>
+    </where>
+  </select>
+
+  <select id="queryCur" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_quartersdetail
+    <where>
+      mac = #{mac,jdbcType=VARCHAR}
+      and years = #{years,jdbcType=VARCHAR}
+      and  quarters = #{quarters,jdbcType=VARCHAR}
+    </where>
+  </select>
+
+  <delete id="deleteByMac" parameterType="String">
+    delete from tb_quartersdetail
+    where  mac = #{mac,jdbcType=VARCHAR}
+  </delete>
+
+
+</mapper>
